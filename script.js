@@ -9,7 +9,6 @@
    INICIALIZACIÓN GLOBAL
 ════════════════════════════════════════════ */
 document.addEventListener("DOMContentLoaded", () => {
-  // Renderizar todos los iconos Lucide
   if (window.lucide) lucide.createIcons();
 
   bindPointerButtons();
@@ -21,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
    BINDS TÁCTILES GLOBALES
 ════════════════════════════════════════════ */
 function bindPointerButtons() {
-  // Botón Volver al mapa
   const backBtn = document.querySelector(".back-btn");
   if (backBtn) {
     backBtn.addEventListener("pointerdown", (e) => {
@@ -30,7 +28,6 @@ function bindPointerButtons() {
     });
   }
 
-  // Links de mapa (paradas del camino)
   document.querySelectorAll(".map-node").forEach((node) => {
     node.addEventListener("pointerdown", (e) => {
       e.preventDefault();
@@ -41,7 +38,6 @@ function bindPointerButtons() {
     });
   });
 
-  // Tarjetas de juegos como links
   document.querySelectorAll(".game-card[data-href]").forEach((card) => {
     card.addEventListener("pointerdown", (e) => {
       e.preventDefault();
@@ -51,7 +47,6 @@ function bindPointerButtons() {
     });
   });
 
-  // Items de enlaces de juego
   document.querySelectorAll(".game-link-item[data-href]").forEach((item) => {
     item.addEventListener("pointerdown", (e) => {
       e.preventDefault();
@@ -62,7 +57,6 @@ function bindPointerButtons() {
   });
 }
 
-/* Efecto hundimiento visual al presionar */
 function sinkEffect(el, callback) {
   el.classList.add("btn-pressed");
   setTimeout(() => {
@@ -82,55 +76,54 @@ function initPageSpecific() {
 
 /* ════════════════════════════════════════════
    QUIZ INTERACTIVO (ejercicios.html)
+   — Suma de Fracciones / Resta de Fracciones / Fracciones
 ════════════════════════════════════════════ */
 const QUESTIONS = {
-  sumas: [
-    { q: "3 + 5 = ?",   opts: [6, 7, 8, 9],   ans: 8  },
-    { q: "12 + 7 = ?",  opts: [17,18,19,20],   ans: 19 },
-    { q: "6 + 6 = ?",   opts: [10,11,12,13],   ans: 12 },
-    { q: "9 + 4 = ?",   opts: [11,12,13,14],   ans: 13 },
-    { q: "15 + 3 = ?",  opts: [16,17,18,19],   ans: 18 },
+  sumaFrac: [
+    { q: "1/4 + 2/4 = ?",   opts: ["2/4","3/4","4/4","1/4"],  ans: "3/4"  },
+    { q: "1/3 + 1/3 = ?",   opts: ["1/3","2/6","2/3","3/3"],  ans: "2/3"  },
+    { q: "2/5 + 2/5 = ?",   opts: ["4/5","4/10","2/5","3/5"], ans: "4/5"  },
+    { q: "1/6 + 3/6 = ?",   opts: ["3/6","4/6","2/6","5/6"],  ans: "4/6"  },
+    { q: "3/8 + 3/8 = ?",   opts: ["5/8","6/16","6/8","7/8"], ans: "6/8"  },
   ],
-  restas: [
-    { q: "10 - 4 = ?",  opts: [4, 5, 6, 7],    ans: 6  },
-    { q: "15 - 8 = ?",  opts: [5, 6, 7, 8],    ans: 7  },
-    { q: "9 - 3 = ?",   opts: [4, 5, 6, 7],    ans: 6  },
-    { q: "20 - 7 = ?",  opts: [11,12,13,14],   ans: 13 },
-    { q: "14 - 5 = ?",  opts: [7, 8, 9, 10],   ans: 9  },
+  restaFrac: [
+    { q: "3/4 - 1/4 = ?",   opts: ["1/4","3/4","2/4","2/8"],  ans: "2/4"  },
+    { q: "4/5 - 2/5 = ?",   opts: ["1/5","2/5","2/10","3/5"], ans: "2/5"  },
+    { q: "5/6 - 2/6 = ?",   opts: ["2/6","4/6","3/6","1/6"],  ans: "3/6"  },
+    { q: "7/8 - 3/8 = ?",   opts: ["3/8","5/8","4/8","4/16"], ans: "4/8"  },
+    { q: "2/3 - 1/3 = ?",   opts: ["2/3","0/3","1/3","1/6"],  ans: "1/3"  },
   ],
   fracciones: [
-    { q: "1/2 de 10 = ?",  opts: [3, 4, 5, 6],  ans: 5 },
-    { q: "1/4 de 8 = ?",   opts: [1, 2, 3, 4],  ans: 2 },
-    { q: "1/3 de 9 = ?",   opts: [2, 3, 4, 5],  ans: 3 },
-    { q: "2/4 = ?/2",      opts: [1, 2, 3, 4],  ans: 1 },
-    { q: "3/6 es igual a 1/?", opts: [2, 3, 4, 6], ans: 2 },
+    { q: "1/2 de 10 = ?",       opts: ["3","4","5","6"],    ans: "5" },
+    { q: "1/4 de 8 = ?",        opts: ["1","2","3","4"],    ans: "2" },
+    { q: "1/3 de 9 = ?",        opts: ["2","3","4","5"],    ans: "3" },
+    { q: "2/4 es igual a 1/?",  opts: ["1","2","3","4"],    ans: "2" },
+    { q: "3/6 es igual a 1/?",  opts: ["2","3","4","6"],    ans: "2" },
   ],
 };
 
 let quizState = {
-  topic:   "sumas",
-  index:   0,
-  score:   0,
+  topic:    "sumaFrac",
+  index:    0,
+  score:    0,
   answered: false,
 };
 
 function initQuiz() {
-  // Selector de tema
   document.querySelectorAll(".topic-tab").forEach((tab) => {
     tab.addEventListener("pointerdown", (e) => {
       e.preventDefault();
       document.querySelectorAll(".topic-tab").forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
-      quizState.topic   = tab.dataset.topic;
-      quizState.index   = 0;
-      quizState.score   = 0;
+      quizState.topic    = tab.dataset.topic;
+      quizState.index    = 0;
+      quizState.score    = 0;
       quizState.answered = false;
       showQuestion();
       hideResult();
     });
   });
 
-  // Botón siguiente pregunta
   const btnNext = document.getElementById("btnNextQ");
   if (btnNext) {
     btnNext.addEventListener("pointerdown", (e) => {
@@ -139,14 +132,13 @@ function initQuiz() {
     });
   }
 
-  // Botón reiniciar
   const btnRestart = document.getElementById("btnRestart");
   if (btnRestart) {
     btnRestart.addEventListener("pointerdown", (e) => {
       e.preventDefault();
       sinkEffect(btnRestart, () => {
-        quizState.index  = 0;
-        quizState.score  = 0;
+        quizState.index    = 0;
+        quizState.score    = 0;
         quizState.answered = false;
         hideResult();
         showQuestion();
@@ -166,30 +158,25 @@ function showQuestion() {
 
   const q = qs[idx];
 
-  // Progreso
   const fill  = document.getElementById("qpFill");
   const label = document.getElementById("qpLabel");
   if (fill)  fill.style.width = `${((idx) / total) * 100}%`;
   if (label) label.textContent = `${idx + 1} / ${total}`;
 
-  // Número y texto de pregunta
   const numEl  = document.getElementById("questionNum");
   const textEl = document.getElementById("questionText");
   if (numEl)  numEl.textContent  = `Pregunta ${idx + 1}`;
   if (textEl) textEl.textContent = q.q;
 
-  // Opciones
   const btns = document.querySelectorAll(".answer-btn");
   btns.forEach((btn, i) => {
     btn.textContent = q.opts[i];
     btn.classList.remove("correct", "wrong");
     btn.disabled = false;
     btn.style.animation = "";
-
     btn.addEventListener("pointerdown", onAnswerDown, { once: true });
   });
 
-  // Ocultar feedback y siguiente
   const fb   = document.getElementById("feedbackBar");
   const next = document.getElementById("btnNextQ");
   if (fb)   { fb.classList.remove("show","fb-correct","fb-wrong"); fb.innerHTML = ""; }
@@ -206,27 +193,23 @@ function onAnswerDown(e) {
   const btn     = e.currentTarget;
   const qs      = QUESTIONS[quizState.topic];
   const correct = qs[quizState.index].ans;
-  const chosen  = parseInt(btn.textContent, 10);
+  const chosen  = btn.textContent.trim();
   const isRight = chosen === correct;
 
-  // Desactivar todos los botones
   document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
 
-  // Marcar correcto/incorrecto
   if (isRight) {
     btn.classList.add("correct");
     quizState.score++;
   } else {
     btn.classList.add("wrong");
-    // Mostrar respuesta correcta
     document.querySelectorAll(".answer-btn").forEach(b => {
-      if (parseInt(b.textContent, 10) === correct) b.classList.add("correct");
+      if (b.textContent.trim() === correct) b.classList.add("correct");
     });
   }
 
-  showFeedback(isRight);
+  showFeedback(isRight, correct);
 
-  // Mostrar botón siguiente
   const next = document.getElementById("btnNextQ");
   if (next) {
     setTimeout(() => {
@@ -236,7 +219,7 @@ function onAnswerDown(e) {
   }
 }
 
-function showFeedback(correct) {
+function showFeedback(correct, correctAnswer) {
   const fb = document.getElementById("feedbackBar");
   if (!fb) return;
 
@@ -244,9 +227,8 @@ function showFeedback(correct) {
     fb.className = "feedback-bar fb-correct";
     fb.innerHTML = `<i data-lucide="check-circle-2"></i><span>Excelente. Eso es correcto.</span>`;
   } else {
-    const ans = QUESTIONS[quizState.topic][quizState.index].ans;
     fb.className = "feedback-bar fb-wrong";
-    fb.innerHTML = `<i data-lucide="x-circle"></i><span>Casi. La respuesta era ${ans}.</span>`;
+    fb.innerHTML = `<i data-lucide="x-circle"></i><span>Casi. La respuesta era ${correctAnswer}.</span>`;
   }
   if (window.lucide) lucide.createIcons();
   requestAnimationFrame(() => fb.classList.add("show"));
@@ -263,7 +245,7 @@ function showResult() {
   if (qc) qc.style.display = "none";
   if (rs) {
     rs.classList.add("show");
-    const total = QUESTIONS[quizState.topic].length;
+    const total   = QUESTIONS[quizState.topic].length;
     const scoreEl = document.getElementById("resultScore");
     const msgEl   = document.getElementById("resultMsg");
     if (scoreEl) scoreEl.textContent = `${quizState.score} / ${total}`;
@@ -290,7 +272,6 @@ function hideResult() {
 ════════════════════════════════════════════ */
 function initJuegos() {
   // Los game-card con data-href se manejan en bindPointerButtons
-  // Los game-link-item también
 }
 
 /* ════════════════════════════════════════════

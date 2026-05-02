@@ -32,13 +32,13 @@
 
     <!-- SELECTOR DE TEMA -->
     <div class="topic-selector" role="tablist" aria-label="Selecciona el tema">
-      <button class="topic-tab tt-mint active" data-topic="sumas" role="tab" aria-selected="true">
+      <button class="topic-tab tt-mint active" data-topic="sumaFrac" role="tab" aria-selected="true">
         <i data-lucide="plus-circle" style="width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:4px;"></i>
-        Sumas
+        Suma de Fracciones
       </button>
-      <button class="topic-tab tt-coral" data-topic="restas" role="tab" aria-selected="false">
+      <button class="topic-tab tt-coral" data-topic="restaFrac" role="tab" aria-selected="false">
         <i data-lucide="minus-circle" style="width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:4px;"></i>
-        Restas
+        Resta de Fracciones
       </button>
       <button class="topic-tab tt-lav" data-topic="fracciones" role="tab" aria-selected="false">
         <i data-lucide="divide-circle" style="width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:4px;"></i>
@@ -57,10 +57,9 @@
     <!-- CONTENIDO DEL QUIZ -->
     <div id="quizContent">
 
-      <!-- TARJETA DE PREGUNTA -->
       <div class="question-card" role="region" aria-live="polite">
         <div class="question-num" id="questionNum">Pregunta 1</div>
-        <div class="question-text" id="questionText">3 + 5 = ?</div>
+        <div class="question-text" id="questionText">1/4 + 2/4 = ?</div>
         <div class="answer-grid" role="group" aria-label="Opciones de respuesta">
           <button class="answer-btn ans-a" aria-label="Opcion A">0</button>
           <button class="answer-btn ans-b" aria-label="Opcion B">0</button>
@@ -69,18 +68,14 @@
         </div>
       </div>
 
-      <!-- FEEDBACK -->
-      <div class="feedback-bar" id="feedbackBar" role="alert" aria-live="assertive">
-        <!-- Se rellena por JS -->
-      </div>
+      <div class="feedback-bar" id="feedbackBar" role="alert" aria-live="assertive"></div>
 
-      <!-- BOTÓN SIGUIENTE PREGUNTA -->
       <button class="btn-next-q" id="btnNextQ" aria-label="Siguiente pregunta">
         <span>Siguiente pregunta</span>
         <i data-lucide="arrow-right"></i>
       </button>
 
-    </div><!-- /quizContent -->
+    </div>
 
     <!-- PANTALLA DE RESULTADO -->
     <div class="result-screen" id="resultScreen" role="region" aria-label="Resultado final">
@@ -99,7 +94,6 @@
       </button>
     </div>
 
-    <!-- INDICACIÓN TÁCTIL -->
     <div style="margin-top:18px;display:flex;justify-content:center;">
       <div class="touch-hint" aria-hidden="true">
         <i data-lucide="hand"></i>
@@ -107,7 +101,7 @@
       </div>
     </div>
 
-  </div><!-- /quiz-container -->
+  </div>
 
   <script src="script.js"></script>
 </body>

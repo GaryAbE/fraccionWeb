@@ -10,7 +10,6 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Estilos extra solo para el mapa */
     .map-footer {
       padding: 0 20px 40px;
       max-width: 440px;
@@ -52,23 +51,21 @@
 </head>
 <body class="map-page page-index">
 
-  <!-- ══════ HERO ══════ -->
   <header class="map-hero">
     <div class="map-hero-icon" aria-hidden="true">
       <i data-lucide="graduation-cap"></i>
     </div>
     <h1 class="t-display anim-up">Matematicas<br /><span style="color:var(--mint-mid)">Aventura</span></h1>
-    <p class="t-body anim-up delay-1">Aprende Sumas, Restas y Fracciones</p>
+    <p class="t-body anim-up delay-1">Aprende Suma, Resta y Fracciones</p>
   </header>
 
-  <!-- ══════ TEMAS DISPONIBLES ══════ -->
   <div style="padding: 0 20px; max-width:640px; margin: 0 auto 10px;">
     <div class="topics-strip anim-up delay-2">
       <div class="topic-pill tp-mint">
-        <i data-lucide="plus-circle"></i>Sumas
+        <i data-lucide="plus-circle"></i>Suma de Fracciones
       </div>
       <div class="topic-pill tp-coral">
-        <i data-lucide="minus-circle"></i>Restas
+        <i data-lucide="minus-circle"></i>Resta de Fracciones
       </div>
       <div class="topic-pill tp-lav">
         <i data-lucide="divide-circle"></i>Fracciones
@@ -76,10 +73,8 @@
     </div>
   </div>
 
-  <!-- ══════ MAPA ZIGZAG ══════ -->
   <main class="map-container" role="main" aria-label="Camino de aprendizaje">
 
-    <!-- PARADA 1: VIDEOS (IZQUIERDA) -->
     <div class="map-row row-left anim-up delay-2">
       <a href="videos.html" class="map-node mn-mint pulse-node" aria-label="Ir a Videos">
         <div class="mn-icon" aria-hidden="true"><i data-lucide="video"></i></div>
@@ -92,10 +87,8 @@
       </div>
     </div>
 
-    <!-- CONECTOR 1→2 (izquierda a derecha) -->
     <div class="map-conn conn-rl conn-mint" aria-hidden="true"></div>
 
-    <!-- PARADA 2: TEORIA (DERECHA) -->
     <div class="map-row row-right anim-up delay-3">
       <div class="touch-hint touch-hint-rev" aria-hidden="true">
         <i data-lucide="hand"></i>
@@ -108,10 +101,8 @@
       </a>
     </div>
 
-    <!-- CONECTOR 2→3 (derecha a izquierda) -->
     <div class="map-conn conn-lr conn-sky" aria-hidden="true"></div>
 
-    <!-- PARADA 3: JUEGOS (IZQUIERDA) -->
     <div class="map-row row-left anim-up delay-4">
       <a href="juegos.html" class="map-node mn-cream" aria-label="Ir a Juegos">
         <div class="mn-icon" aria-hidden="true"><i data-lucide="gamepad-2"></i></div>
@@ -124,10 +115,8 @@
       </div>
     </div>
 
-    <!-- CONECTOR 3→4 (izquierda a derecha) -->
     <div class="map-conn conn-rl conn-cream" aria-hidden="true"></div>
 
-    <!-- PARADA 4: EJERCICIOS (DERECHA) -->
     <div class="map-row row-right anim-up delay-5">
       <div class="touch-hint touch-hint-rev" aria-hidden="true">
         <i data-lucide="hand"></i>
@@ -142,10 +131,9 @@
 
   </main>
 
-  <!-- ══════ PIE ══════ -->
   <footer class="map-footer" role="contentinfo">
     <p class="map-tagline">
-      Sigue el camino y conviertete en un experto en matematicas
+      Sigue el camino y conviertete en un experto en fracciones
     </p>
   </footer>
 

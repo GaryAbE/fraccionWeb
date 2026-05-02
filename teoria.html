@@ -10,8 +10,8 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ─── Regla de suma animada ─── */
-    .sum-rule {
+    /* ─── Barra visual de fracción ─── */
+    .frac-bar-row {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -23,34 +23,31 @@
       box-shadow: 0 6px 0 rgba(0,0,0,.1);
       margin-bottom: 18px;
     }
-    .sum-group {
+    .frac-block {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
     }
-    .s-ball {
-      width: clamp(36px,9vw,52px);
-      height: clamp(36px,9vw,52px);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
+    .frac-strip {
+      display: flex;
+      gap: 5px;
+    }
+    .fs-part {
+      width: clamp(32px,8vw,46px);
+      height: clamp(32px,8vw,46px);
+      border-radius: var(--r-sm);
+      border: 3px solid rgba(0,0,0,.12);
+    }
+    .fs-part.on-mint  { background: var(--mint-mid); }
+    .fs-part.off-mint { background: var(--mint);     }
+    .fs-part.on-coral { background: var(--coral-mid);}
+    .fs-part.off-coral{ background: var(--coral);    }
+    .fs-label {
       font-size: clamp(1.1rem,3vw,1.5rem);
       font-weight: 700;
-      animation: ball-appear .4s var(--ease-b, cubic-bezier(.34,1.56,.64,1)) both;
+      color: var(--text-mid);
     }
-    .s-ball.mint  { background: var(--mint-mid);  color: #051a0e; }
-    .s-ball.sky   { background: var(--sky-mid);   color: #040f1c; }
-    .s-ball.cream { background: var(--cream-mid); color: #281b00; }
-    @keyframes ball-appear {
-      from { transform: scale(0); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
-    .s-ball:nth-child(1) { animation-delay: .05s; }
-    .s-ball:nth-child(2) { animation-delay: .12s; }
-    .s-ball:nth-child(3) { animation-delay: .19s; }
-    .s-ball:nth-child(4) { animation-delay: .26s; }
-    .s-ball:nth-child(5) { animation-delay: .33s; }
-
     .op-label {
       font-size: clamp(2rem,7vw,3.5rem);
       font-weight: 700;
@@ -65,41 +62,36 @@
       color: var(--text);
     }
 
-    /* ─── Cinta de resta ─── */
-    .resta-strip {
+    /* ─── Tipografía de fracción grande ─── */
+    .frac-typo-big {
       display: flex;
-      gap: 10px;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+    }
+    .ftb-num { font-size: clamp(2rem,7vw,3.2rem); font-weight: 700; }
+    .ftb-bar { width: 100%; height: 5px; background: var(--text); border-radius: 3px; margin: 5px 0; }
+    .ftb-den { font-size: clamp(2rem,7vw,3.2rem); font-weight: 700; }
+    .ftb-mint .ftb-num, .ftb-mint .ftb-den { color: var(--mint-mid); }
+    .ftb-coral .ftb-num, .ftb-coral .ftb-den { color: var(--coral-mid); }
+    .ftb-result .ftb-num, .ftb-result .ftb-den { color: var(--text); }
+
+    /* ─── Formula con fracciones ─── */
+    .formula-frac-row {
+      display: flex;
+      align-items: center;
       justify-content: center;
+      gap: 16px;
       flex-wrap: wrap;
-      padding: 20px 14px;
-      background: var(--white);
-      border-radius: var(--r-lg);
-      box-shadow: 0 6px 0 rgba(0,0,0,.1);
       margin-bottom: 18px;
     }
-    .r-box {
-      width: clamp(46px,11vw,64px);
-      height: clamp(46px,11vw,64px);
-      border-radius: var(--r-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: clamp(1.2rem,3.5vw,1.8rem);
+    .f-op {
+      font-size: clamp(1.8rem,6vw,3rem);
       font-weight: 700;
+      color: var(--text-mid);
     }
-    .r-box.active { background: var(--coral); color: var(--coral-shadow); }
-    .r-box.gone {
-      background: rgba(0,0,0,.07);
-      color: rgba(0,0,0,.2);
-      position: relative;
-    }
-    .r-box.gone::before, .r-box.gone::after {
-      content: '';
-      position: absolute; inset: 8px;
-      border-top: 4px solid rgba(0,0,0,.25);
-    }
-    .r-box.gone::before { transform: rotate(45deg); }
-    .r-box.gone::after  { transform: rotate(-45deg); }
 
-    /* ─── Fracción visual interactiva ─── */
+    /* ─── Fraccion interactiva (heredada de teoria original) ─── */
     .frac-interactive {
       display: flex;
       flex-direction: column;
@@ -149,8 +141,6 @@
     .ft-num { font-size: clamp(2.5rem,8vw,4rem); font-weight: 700; color: var(--lav-mid); line-height: 1; }
     .ft-bar { width: 100%; height: 5px; background: var(--text); border-radius: 3px; margin: 6px 0; }
     .ft-den { font-size: clamp(2.5rem,8vw,4rem); font-weight: 700; color: var(--sky-mid); line-height: 1; }
-
-    /* Barra visual de fracción */
     .frac-visual-bar {
       display: flex;
       width: 100%;
@@ -168,8 +158,6 @@
     .fvb-part:last-child { border-right: none; }
     .fvb-part.on  { background: var(--lav-mid); }
     .fvb-part.off { background: var(--lav);     }
-
-    /* Etiqueta fracción */
     .frac-caption {
       font-size: clamp(1.1rem,3vw,1.4rem);
       font-weight: 700;
@@ -177,7 +165,7 @@
       text-align: center;
     }
 
-    /* ─── Definición visual (numerador / denominador) ─── */
+    /* ─── Definicion numerador/denominador ─── */
     .def-row {
       display: flex;
       gap: 14px;
@@ -209,6 +197,29 @@
     .dc-bot  { background: var(--sky); color: var(--sky-shadow); }
     .def-card h3 { font-size: clamp(1.1rem,3.2vw,1.5rem); font-weight: 700; }
     .def-card p  { font-size: clamp(.95rem,2.8vw,1.2rem); color: var(--text-mid); line-height: 1.4; }
+
+    /* ─── Pasos de operacion ─── */
+    .step-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 18px 20px;
+      box-shadow: 0 4px 0 rgba(0,0,0,.08);
+      margin-bottom: 12px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .sn-mint  { background: var(--mint-mid);  color: #051a0e; }
+    .sn-coral { background: var(--coral-mid); color: #3a0800; }
+    .step-text { font-size: clamp(.95rem,2.8vw,1.2rem); color: var(--text); line-height: 1.5; }
+    .step-text strong { color: var(--text); }
   </style>
 </head>
 <body class="theory-page page-teoria">
@@ -241,119 +252,206 @@
   <!-- ══════ SECCIONES DE TEORIA ══════ -->
   <div class="theory-sections">
 
-    <!-- ─── SUMAS ─── -->
-    <section class="theory-section ts-mint" aria-labelledby="ts-sumas">
+    <!-- ─── SUMA DE FRACCIONES ─── -->
+    <section class="theory-section ts-mint" aria-labelledby="ts-suma-frac">
       <div class="theory-header">
         <div class="theory-icon ti-mint" aria-hidden="true">
           <i data-lucide="plus-circle"></i>
         </div>
         <div class="theory-hd">
-          <h2 id="ts-sumas">Sumas</h2>
-          <p>Juntar grupos para obtener un total</p>
+          <h2 id="ts-suma-frac">Suma de Fracciones</h2>
+          <p>Juntar partes de un mismo todo</p>
         </div>
       </div>
 
       <!-- Concepto -->
       <div class="concept-card">
-        <h3>Que es sumar?</h3>
+        <h3>Que es sumar fracciones?</h3>
         <p>
-          Sumar es <strong>unir dos o mas grupos</strong> de objetos para contar
-          cuantos hay en total. El signo de la suma es el <strong>mas (+)</strong>.
+          Sumar fracciones es <strong>unir partes de un mismo entero</strong>.
+          Cuando las fracciones tienen el <strong>mismo denominador</strong>,
+          solo sumamos los numeradores y mantenemos el denominador igual.
         </p>
       </div>
 
-      <!-- Visual con pelotas de colores -->
-      <div class="sum-rule">
-        <div class="sum-group">
-          <div class="s-ball mint">1</div>
-          <div class="s-ball mint">2</div>
-          <div class="s-ball mint">3</div>
+      <!-- Visual: barras de fraccion -->
+      <div class="frac-bar-row">
+        <div class="frac-block">
+          <div class="frac-strip">
+            <div class="fs-part on-mint"></div>
+            <div class="fs-part off-mint"></div>
+            <div class="fs-part off-mint"></div>
+            <div class="fs-part off-mint"></div>
+          </div>
+          <span class="fs-label">1/4</span>
         </div>
         <div class="op-label">+</div>
-        <div class="sum-group">
-          <div class="s-ball sky">4</div>
-          <div class="s-ball sky">5</div>
+        <div class="frac-block">
+          <div class="frac-strip">
+            <div class="fs-part on-mint"></div>
+            <div class="fs-part on-mint"></div>
+            <div class="fs-part off-mint"></div>
+            <div class="fs-part off-mint"></div>
+          </div>
+          <span class="fs-label">2/4</span>
         </div>
         <div class="op-label">=</div>
-        <div class="result-bubble">5</div>
+        <div class="frac-block">
+          <div class="frac-strip">
+            <div class="fs-part on-mint"></div>
+            <div class="fs-part on-mint"></div>
+            <div class="fs-part on-mint"></div>
+            <div class="fs-part off-mint"></div>
+          </div>
+          <span class="fs-label">3/4</span>
+        </div>
       </div>
 
-      <!-- Fórmula grande -->
-      <div class="formula-row">
-        <div class="f-block fb-mint">3</div>
+      <!-- Formula con fracciones -->
+      <div class="formula-frac-row">
+        <div class="frac-typo-big ftb-mint">
+          <span class="ftb-num">1</span>
+          <span class="ftb-bar"></span>
+          <span class="ftb-den">4</span>
+        </div>
         <div class="f-op">+</div>
-        <div class="f-block fb-sky">2</div>
+        <div class="frac-typo-big ftb-mint">
+          <span class="ftb-num">2</span>
+          <span class="ftb-bar"></span>
+          <span class="ftb-den">4</span>
+        </div>
         <div class="f-op">=</div>
-        <div class="f-block fb-result">5</div>
+        <div class="frac-typo-big ftb-result">
+          <span class="ftb-num">3</span>
+          <span class="ftb-bar"></span>
+          <span class="ftb-den">4</span>
+        </div>
       </div>
 
-      <!-- Regla -->
+      <!-- Pasos -->
       <div class="concept-card">
-        <h3>Regla de oro</h3>
-        <p>
-          El <strong>orden no cambia el resultado</strong>.
-          <br />3 + 2 es igual a 2 + 3. Los dos dan 5.
-        </p>
+        <h3>Como se hace paso a paso</h3>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn-mint">1</div>
+        <div class="step-text">Verifica que los <strong>denominadores sean iguales</strong>. En 1/4 + 2/4 ambos son 4.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn-mint">2</div>
+        <div class="step-text"><strong>Suma solo los numeradores</strong>: 1 + 2 = 3.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn-mint">3</div>
+        <div class="step-text"><strong>Escribe el mismo denominador</strong> abajo: el resultado es 3/4.</div>
       </div>
 
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;">
         <div class="touch-hint" aria-hidden="true">
           <i data-lucide="hand"></i>
-          <span>Cuenta las pelotas de arriba</span>
+          <span>Cuenta las partes verdes de arriba</span>
         </div>
       </div>
     </section>
 
-    <!-- ─── RESTAS ─── -->
-    <section class="theory-section ts-coral" aria-labelledby="ts-restas">
+    <!-- ─── RESTA DE FRACCIONES ─── -->
+    <section class="theory-section ts-coral" aria-labelledby="ts-resta-frac">
       <div class="theory-header">
         <div class="theory-icon ti-coral" aria-hidden="true">
           <i data-lucide="minus-circle"></i>
         </div>
         <div class="theory-hd">
-          <h2 id="ts-restas">Restas</h2>
-          <p>Quitar para obtener lo que queda</p>
+          <h2 id="ts-resta-frac">Resta de Fracciones</h2>
+          <p>Quitar partes de un mismo todo</p>
         </div>
       </div>
 
       <!-- Concepto -->
       <div class="concept-card">
-        <h3>Que es restar?</h3>
+        <h3>Que es restar fracciones?</h3>
         <p>
-          Restar es <strong>quitar una cantidad</strong> de un grupo.
-          Lo que queda es el resultado. El signo de la resta es el <strong>menos (-)</strong>.
+          Restar fracciones es <strong>quitar una parte de otra</strong>.
+          Igual que en la suma, cuando los <strong>denominadores son iguales</strong>
+          solo restamos los numeradores y el denominador se mantiene.
         </p>
       </div>
 
-      <!-- Visual: 7 cajas, 3 tachadas -->
-      <div class="resta-strip">
-        <div class="r-box active">1</div>
-        <div class="r-box active">2</div>
-        <div class="r-box active">3</div>
-        <div class="r-box active">4</div>
-        <div class="r-box gone"  aria-label="quitado"></div>
-        <div class="r-box gone"  aria-label="quitado"></div>
-        <div class="r-box gone"  aria-label="quitado"></div>
-      </div>
-      <div style="text-align:center;font-size:clamp(1rem,3vw,1.3rem);font-weight:700;color:var(--text-mid);margin-bottom:16px;">
-        7 - 3 = 4 (los cuadros color coral son los que quedan)
+      <!-- Visual: barras de fraccion -->
+      <div class="frac-bar-row">
+        <div class="frac-block">
+          <div class="frac-strip">
+            <div class="fs-part on-coral"></div>
+            <div class="fs-part on-coral"></div>
+            <div class="fs-part on-coral"></div>
+            <div class="fs-part off-coral"></div>
+          </div>
+          <span class="fs-label">3/4</span>
+        </div>
+        <div class="op-label">-</div>
+        <div class="frac-block">
+          <div class="frac-strip">
+            <div class="fs-part on-coral"></div>
+            <div class="fs-part off-coral"></div>
+            <div class="fs-part off-coral"></div>
+            <div class="fs-part off-coral"></div>
+          </div>
+          <span class="fs-label">1/4</span>
+        </div>
+        <div class="op-label">=</div>
+        <div class="frac-block">
+          <div class="frac-strip">
+            <div class="fs-part on-coral"></div>
+            <div class="fs-part on-coral"></div>
+            <div class="fs-part off-coral"></div>
+            <div class="fs-part off-coral"></div>
+          </div>
+          <span class="fs-label">2/4</span>
+        </div>
       </div>
 
-      <!-- Fórmula -->
-      <div class="formula-row">
-        <div class="f-block fb-coral">7</div>
+      <!-- Formula con fracciones -->
+      <div class="formula-frac-row">
+        <div class="frac-typo-big ftb-coral">
+          <span class="ftb-num">3</span>
+          <span class="ftb-bar"></span>
+          <span class="ftb-den">4</span>
+        </div>
         <div class="f-op">-</div>
-        <div class="f-block fb-cream">3</div>
+        <div class="frac-typo-big ftb-coral">
+          <span class="ftb-num">1</span>
+          <span class="ftb-bar"></span>
+          <span class="ftb-den">4</span>
+        </div>
         <div class="f-op">=</div>
-        <div class="f-block fb-result">4</div>
+        <div class="frac-typo-big ftb-result">
+          <span class="ftb-num">2</span>
+          <span class="ftb-bar"></span>
+          <span class="ftb-den">4</span>
+        </div>
       </div>
 
-      <!-- Regla -->
+      <!-- Pasos -->
+      <div class="concept-card">
+        <h3>Como se hace paso a paso</h3>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn-coral">1</div>
+        <div class="step-text">Verifica que los <strong>denominadores sean iguales</strong>. En 3/4 - 1/4 ambos son 4.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn-coral">2</div>
+        <div class="step-text"><strong>Resta solo los numeradores</strong>: 3 - 1 = 2.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn-coral">3</div>
+        <div class="step-text"><strong>Escribe el mismo denominador</strong> abajo: el resultado es 2/4.</div>
+      </div>
+
+      <!-- Regla importante -->
       <div class="concept-card">
         <h3>Importante</h3>
         <p>
-          En la resta el <strong>orden si importa</strong>.
-          <br />7 - 3 = 4, pero 3 - 7 no es posible en numeros naturales.
+          En la resta de fracciones el <strong>orden si importa</strong>.
+          <br />3/4 - 1/4 = 2/4, pero 1/4 - 3/4 no es posible con fracciones positivas simples.
         </p>
       </div>
     </section>
@@ -393,7 +491,7 @@
         </div>
       </div>
 
-      <!-- Fracción interactiva: selector -->
+      <!-- Fracción interactiva -->
       <div class="frac-interactive" role="region" aria-label="Visualizador de fracciones">
         <p style="font-size:clamp(1.1rem,3vw,1.4rem);font-weight:700;color:var(--text-mid);">
           Toca una fraccion para verla
@@ -412,7 +510,6 @@
           </div>
           <div style="display:flex;flex-direction:column;gap:10px;align-items:center;width:100%;max-width:360px;">
             <div class="frac-visual-bar" id="fracBar" role="img" aria-label="Barra visual de fraccion">
-              <!-- Se genera por JS -->
             </div>
             <p class="frac-caption" id="fracCaption">1 de cada 2 partes</p>
           </div>
@@ -488,7 +585,7 @@
         });
       });
 
-      renderFrac(1, 2); // Estado inicial
+      renderFrac(1, 2);
     })();
   </script>
 </body>

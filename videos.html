@@ -40,90 +40,6 @@
   <!-- ══════ SECCIONES DE VIDEO ══════ -->
   <div class="video-sections">
 
-    <!-- ─── SUMAS ─── -->
-    <section class="video-section vs-mint" aria-labelledby="vid-sumas">
-      <div class="vs-header">
-        <div class="vs-icon vs-icon-mint" aria-hidden="true">
-          <i data-lucide="plus-circle"></i>
-        </div>
-        <div class="vs-header-text">
-          <h2 id="vid-sumas">Sumas</h2>
-          <p>Aprender a juntar numeros</p>
-        </div>
-      </div>
-
-      <!--
-        INSTRUCCION PARA EL DOCENTE:
-        Reemplaza el valor de "src" con el enlace de YouTube deseado.
-        Formato: https://www.youtube.com/embed/ID_DEL_VIDEO
-      -->
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/n0FZhQ_GkKw?rel=0&modestbranding=1"
-          title="Video educativo sobre Sumas para primaria"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="lazy"
-        ></iframe>
-      </div>
-
-      <div class="video-tip">
-        <i data-lucide="lightbulb"></i>
-        <span>Sumar es juntar dos grupos para obtener un total mayor</span>
-      </div>
-
-      <div style="margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.7);padding:12px 18px;border-radius:999px;font-size:clamp(1rem,3vw,1.35rem);font-weight:700;color:var(--text);">
-          <i data-lucide="info" style="width:20px;height:20px;color:var(--mint-mid);"></i>
-          Ejemplo: 4 + 3 = 7
-        </div>
-        <div class="touch-hint" aria-hidden="true" style="animation-delay:.3s;">
-          <i data-lucide="hand"></i>
-          <span>Sube el volumen</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ─── RESTAS ─── -->
-    <section class="video-section vs-coral" aria-labelledby="vid-restas">
-      <div class="vs-header">
-        <div class="vs-icon vs-icon-coral" aria-hidden="true">
-          <i data-lucide="minus-circle"></i>
-        </div>
-        <div class="vs-header-text">
-          <h2 id="vid-restas">Restas</h2>
-          <p>Aprender a quitar numeros</p>
-        </div>
-      </div>
-
-      <!--
-        INSTRUCCION PARA EL DOCENTE:
-        Reemplaza "ID_RESTAS_AQUI" con el ID del video de YouTube sobre Restas.
-        Ejemplo: https://www.youtube.com/embed/AbCdEfGhIjK
-      -->
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/WnjPMRHjsKw?rel=0&modestbranding=1"
-          title="Video educativo sobre Restas para primaria"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="lazy"
-        ></iframe>
-      </div>
-
-      <div class="video-tip">
-        <i data-lucide="lightbulb"></i>
-        <span>Restar es quitar una parte de un grupo para obtener un total menor</span>
-      </div>
-
-      <div style="margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.7);padding:12px 18px;border-radius:999px;font-size:clamp(1rem,3vw,1.35rem);font-weight:700;color:var(--text);">
-          <i data-lucide="info" style="width:20px;height:20px;color:var(--coral-mid);"></i>
-          Ejemplo: 9 - 4 = 5
-        </div>
-      </div>
-    </section>
-
     <!-- ─── FRACCIONES ─── -->
     <section class="video-section vs-lav" aria-labelledby="vid-fracciones">
       <div class="vs-header">
@@ -136,19 +52,10 @@
         </div>
       </div>
 
-      <!--
-        INSTRUCCION PARA EL DOCENTE:
-        Reemplaza "ID_FRACCIONES_AQUI" con el ID del video de YouTube sobre Fracciones.
-        Ejemplo: https://www.youtube.com/embed/AbCdEfGhIjK
-      -->
       <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/n0FZhQ_GkKw?rel=0&modestbranding=1"
-          title="Video educativo sobre Fracciones para primaria"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="lazy"
-        ></iframe>
+        <video controls width="100%" preload="metadata">
+          <source src="videos/prueba.mp4" type="video/mp4">
+        </video>
       </div>
 
       <div class="video-tip">
@@ -160,6 +67,80 @@
         <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.7);padding:12px 18px;border-radius:999px;font-size:clamp(1rem,3vw,1.35rem);font-weight:700;color:var(--text);">
           <i data-lucide="info" style="width:20px;height:20px;color:var(--lav-mid);"></i>
           Ejemplo: 1/2 es la mitad
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── EJEMPLOS ─── -->
+    <section class="video-section vs-mint" aria-labelledby="vid-ejemplos">
+      <div class="vs-header">
+        <div class="vs-icon vs-icon-mint" aria-hidden="true">
+          <i data-lucide="book-open"></i>
+        </div>
+        <div class="vs-header-text">
+          <h2 id="vid-ejemplos">Ejemplos</h2>
+          <p>Mira ejemplos de fracciones en accion</p>
+        </div>
+      </div>
+
+      <!--
+        INSTRUCCION PARA EL DOCENTE:
+        Coloca tu video en la carpeta "videos/" con el nombre "ejemplos.mp4"
+      -->
+      <div class="video-wrapper">
+        <video controls width="100%" preload="metadata">
+          <source src="videos/ejemplos.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="video-tip">
+        <i data-lucide="lightbulb"></i>
+        <span>Observa como se usan las fracciones en situaciones del dia a dia</span>
+      </div>
+
+      <div style="margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.7);padding:12px 18px;border-radius:999px;font-size:clamp(1rem,3vw,1.35rem);font-weight:700;color:var(--text);">
+          <i data-lucide="info" style="width:20px;height:20px;color:var(--mint-mid);"></i>
+          Ejemplo: 3/4 de una pizza
+        </div>
+        <div class="touch-hint" aria-hidden="true" style="animation-delay:.3s;">
+          <i data-lucide="hand"></i>
+          <span>Sube el volumen</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PARTES DE LA FRACCION ─── -->
+    <section class="video-section vs-coral" aria-labelledby="vid-partes">
+      <div class="vs-header">
+        <div class="vs-icon vs-icon-coral" aria-hidden="true">
+          <i data-lucide="layers"></i>
+        </div>
+        <div class="vs-header-text">
+          <h2 id="vid-partes">Partes de la Fraccion</h2>
+          <p>Conoce el numerador y el denominador</p>
+        </div>
+      </div>
+
+      <!--
+        INSTRUCCION PARA EL DOCENTE:
+        Coloca tu video en la carpeta "videos/" con el nombre "partes.mp4"
+      -->
+      <div class="video-wrapper">
+        <video controls width="100%" preload="metadata">
+          <source src="videos/partes.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="video-tip">
+        <i data-lucide="lightbulb"></i>
+        <span>El numerador esta arriba y el denominador esta abajo de la linea</span>
+      </div>
+
+      <div style="margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.7);padding:12px 18px;border-radius:999px;font-size:clamp(1rem,3vw,1.35rem);font-weight:700;color:var(--text);">
+          <i data-lucide="info" style="width:20px;height:20px;color:var(--coral-mid);"></i>
+          En 3/4: numerador = 3, denominador = 4
         </div>
       </div>
     </section>
