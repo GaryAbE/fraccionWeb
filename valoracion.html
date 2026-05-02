@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Valoracion - Matematicas Aventura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Tarjeta de reflexion ── */
+    .reflect-card {
+      background: var(--white);
+      border-radius: var(--r-xl);
+      padding: 28px 22px;
+      box-shadow: 0 8px 0 var(--border);
+      margin-bottom: 22px;
+    }
+    .reflect-card h3 {
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .reflect-card p {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+
+    /* ── Foro de opiniones ── */
+    .forum-options {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .forum-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      border-radius: var(--r-lg);
+      background: var(--card);
+      box-shadow: 0 5px 0 var(--border);
+      border: 3px solid transparent;
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: all .15s;
+      width: 100%;
+      line-height: 1.4;
+    }
+    .forum-btn .fb-icon {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .forum-btn svg { width: 22px; height: 22px; }
+    .forum-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--border); }
+    .forum-btn.voted {
+      border-color: var(--lav-shadow);
+      background: var(--lav);
+      box-shadow: 0 5px 0 var(--lav-shadow);
+    }
+    .forum-btn.voted .fb-icon { background: var(--lav-mid); }
+    .forum-btn.voted .fb-icon svg { color: #fff; }
+
+    /* ── Semaforo de autoevaluacion ── */
+    .semaforo {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .sem-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 16px;
+      border-radius: var(--r-lg);
+      border: 3px solid transparent;
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(.9rem, 2.5vw, 1.1rem);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .15s;
+      min-width: 90px;
+      flex: 1;
+    }
+    .sem-btn svg { width: 36px; height: 36px; }
+    .sem-btn:active { transform: translateY(4px); }
+    .sem-verde  { background: var(--mint);  color: var(--mint-shadow); box-shadow: 0 5px 0 var(--mint-dark);  }
+    .sem-amarillo { background: var(--cream); color: var(--cream-shadow); box-shadow: 0 5px 0 var(--cream-dark); }
+    .sem-rojo   { background: var(--coral); color: var(--coral-shadow); box-shadow: 0 5px 0 var(--coral-dark); }
+    .sem-btn.sem-active { border-color: var(--text); transform: scale(1.06); }
+    .sem-verde.sem-active  { box-shadow: 0 5px 0 var(--mint-shadow); }
+    .sem-amarillo.sem-active { box-shadow: 0 5px 0 var(--cream-shadow); }
+    .sem-rojo.sem-active   { box-shadow: 0 5px 0 var(--coral-shadow); }
+
+    .sem-feedback {
+      text-align: center;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      font-weight: 700;
+      color: var(--text-mid);
+      min-height: 30px;
+      margin-top: 8px;
+      transition: opacity .3s;
+    }
+
+    /* ── Coevaluacion ── */
+    .star-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .star-item {
+      flex: 1;
+      min-width: 130px;
+      padding: 18px 16px;
+      border-radius: var(--r-lg);
+      text-align: center;
+    }
+    .star-item svg { width: 28px; height: 28px; margin-bottom: 6px; }
+    .star-item h4 { font-size: clamp(1rem, 3vw, 1.3rem); font-weight: 700; margin-bottom: 4px; }
+    .star-item p  { font-size: clamp(.9rem, 2.5vw, 1.1rem); color: var(--text-mid); line-height: 1.4; }
+    .si-gold  { background: var(--cream);  box-shadow: 0 4px 0 var(--cream-dark); }
+    .si-blue  { background: var(--sky);    box-shadow: 0 4px 0 var(--sky-dark);   }
+    .si-wish  { background: var(--coral);  box-shadow: 0 4px 0 var(--coral-dark); }
+  </style>
+</head>
+<body class="theory-page page-valoracion">
+
+  <!-- ══════ CABECERA ══════ -->
+  <header class="page-header">
+    <button class="back-btn" onclick="window.location.href='index.html'" aria-label="Volver al mapa">
+      <i data-lucide="arrow-left"></i>
+      <span>Mapa</span>
+    </button>
+    <div class="ph-badge phb-lav" aria-hidden="true">
+      <i data-lucide="heart-handshake"></i>
+    </div>
+    <div class="ph-text">
+      <h1>Valoracion</h1>
+      <p>Momento 3 — Reflexionamos juntos</p>
+    </div>
+  </header>
+
+  <!-- ══════ INSTRUCCIÓN ══════ -->
+  <div style="padding:16px 20px 0;max-width:880px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:12px;background:var(--lav);border-radius:999px;padding:14px 22px;box-shadow:0 4px 0 var(--lav-shadow);">
+      <i data-lucide="message-square" style="width:26px;height:26px;color:var(--lav-shadow);flex-shrink:0;"></i>
+      <span style="font-size:clamp(1rem,3vw,1.3rem);font-weight:700;color:var(--lav-shadow);">
+        Piensa, reflexiona y comparte tu opinion
+      </span>
+    </div>
+  </div>
+
+  <div class="theory-sections">
+
+    <!-- ─── FORO COMUNITARIO ─── -->
+    <section class="theory-section ts-lav" aria-labelledby="val-foro">
+      <div class="theory-header">
+        <div class="theory-icon ti-lav" aria-hidden="true">
+          <i data-lucide="users"></i>
+        </div>
+        <div class="theory-hd">
+          <h2 id="val-foro">Foro: ¿Para que sirven las fracciones?</h2>
+          <p>Comparte tu punto de vista</p>
+        </div>
+      </div>
+
+      <div class="reflect-card">
+        <h3>¿Por que crees que es util saber fracciones?</h3>
+        <p>
+          Las fracciones no son solo matematica del colegio.
+          En tu comunidad se usan todos los dias.
+          Toca la idea que mas te convence:
+        </p>
+        <div class="forum-options" role="group" aria-label="Opciones del foro">
+          <button class="forum-btn" data-forum="util">
+            <div class="fb-icon" style="background:var(--mint);">
+              <i data-lucide="utensils" style="color:var(--mint-shadow);"></i>
+            </div>
+            <span>Para repartir comida de forma justa entre todos en la familia</span>
+          </button>
+          <button class="forum-btn" data-forum="util">
+            <div class="fb-icon" style="background:var(--sky);">
+              <i data-lucide="scissors" style="color:var(--sky-shadow);"></i>
+            </div>
+            <span>Para cortar tela o materiales al coser o construir</span>
+          </button>
+          <button class="forum-btn" data-forum="util">
+            <div class="fb-icon" style="background:var(--coral);">
+              <i data-lucide="sprout" style="color:var(--coral-shadow);"></i>
+            </div>
+            <span>Para dividir el terreno o la cosecha de manera equitativa</span>
+          </button>
+          <button class="forum-btn" data-forum="util">
+            <div class="fb-icon" style="background:var(--cream);">
+              <i data-lucide="calculator" style="color:var(--cream-shadow);"></i>
+            </div>
+            <span>Para calcular descuentos o precios en el mercado</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>Todos los usos son correctos</h3>
+        <p>
+          Las fracciones aparecen en la cocina, en la agricultura, en la
+          construccion, en el comercio. Son parte del conocimiento de toda
+          comunidad. <strong>Tu comunidad ya usaba fracciones antes del colegio.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── AUTOEVALUACION ─── -->
+    <section class="theory-section ts-mint" aria-labelledby="val-auto">
+      <div class="theory-header">
+        <div class="theory-icon ti-mint" aria-hidden="true">
+          <i data-lucide="user-check"></i>
+        </div>
+        <div class="theory-hd">
+          <h2 id="val-auto">Autoevaluacion</h2>
+          <p>¿Como te fue con las fracciones?</p>
+        </div>
+      </div>
+
+      <div class="reflect-card">
+        <h3>¿Que tan seguro/a te sientes ahora?</h3>
+        <p>Toca el semaforo que mejor representa como te sientes:</p>
+        <div class="semaforo" role="group" aria-label="Semaforo de autoevaluacion">
+          <button class="sem-btn sem-verde" data-sem="verde">
+            <i data-lucide="smile"></i>
+            Lo logre
+          </button>
+          <button class="sem-btn sem-amarillo" data-sem="amarillo">
+            <i data-lucide="meh"></i>
+            Estoy en camino
+          </button>
+          <button class="sem-btn sem-rojo" data-sem="rojo">
+            <i data-lucide="frown"></i>
+            Necesito ayuda
+          </button>
+        </div>
+        <p class="sem-feedback" id="semFeedback"></p>
+      </div>
+
+      <div class="reflect-card">
+        <h3>¿Que fue lo mas interesante que aprendiste?</h3>
+        <p>
+          Piensa en una cosa nueva que descubriste hoy sobre las fracciones.
+          Puedes escribirla en tu cuaderno o contarsela a un familiar esta noche.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── COEVALUACION ─── -->
+    <section class="theory-section ts-coral" aria-labelledby="val-coeval">
+      <div class="theory-header">
+        <div class="theory-icon ti-coral" aria-hidden="true">
+          <i data-lucide="star"></i>
+        </div>
+        <div class="theory-hd">
+          <h2 id="val-coeval">Dos Estrellas y un Deseo</h2>
+          <p>Evaluacion entre companeros</p>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>¿Como evaluar el trabajo de un companero?</h3>
+        <p>
+          Cuando revises la actividad de otro estudiante, usa esta guia de
+          <strong>"Dos estrellas y un deseo"</strong>. Es una forma amable
+          y constructiva de darse retroalimentacion.
+        </p>
+      </div>
+
+      <div class="star-row">
+        <div class="star-item si-gold">
+          <i data-lucide="star" style="color:var(--cream-shadow);"></i>
+          <h4>Estrella 1</h4>
+          <p>Algo que hizo muy bien</p>
+        </div>
+        <div class="star-item si-blue">
+          <i data-lucide="star" style="color:var(--sky-shadow);"></i>
+          <h4>Estrella 2</h4>
+          <p>Algo que explico con claridad</p>
+        </div>
+        <div class="star-item si-wish">
+          <i data-lucide="sparkles" style="color:var(--coral-shadow);"></i>
+          <h4>Un Deseo</h4>
+          <p>Algo que podria mejorar la proxima vez</p>
+        </div>
+      </div>
+
+      <div class="reflect-card" style="margin-top:18px;">
+        <h3>Actividad comunitaria</h3>
+        <p>
+          Entrevista a un familiar y preguntale: <strong>"¿Cuando usas fracciones sin darte cuenta?"</strong>
+          Anota su respuesta y compartela en clase. Tu familia tambien es parte del aprendizaje.
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════ NAVEGACION INFERIOR ══════ -->
+  <div style="padding:28px 20px 44px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;max-width:880px;margin:0 auto;">
+    <button class="btn btn-white btn-lg" onclick="window.location.href='juegos.html'">
+      <i data-lucide="arrow-left"></i>
+      <span>Juegos</span>
+    </button>
+    <button class="btn btn-coral btn-lg" onclick="window.location.href='ejercicios.html'">
+      <span>Siguiente: Ejercicios</span>
+      <i data-lucide="arrow-right"></i>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    /* ── Foro: seleccion ── */
+    document.querySelectorAll(".forum-btn[data-forum]").forEach(btn => {
+      btn.addEventListener("pointerdown", e => {
+        e.preventDefault();
+        const forum = btn.dataset.forum;
+        document.querySelectorAll(`.forum-btn[data-forum="${forum}"]`)
+          .forEach(b => b.classList.remove("voted"));
+        btn.classList.add("voted");
+      });
+    });
+
+    /* ── Semaforo: autoevaluacion ── */
+    const semMessages = {
+      verde:    "Excelente. Estas listo para los ejercicios.",
+      amarillo: "Muy bien. Repasa la teoria y lo lograras.",
+      rojo:     "No te preocupes. Pide ayuda a tu maestro o repasa los videos."
+    };
+    document.querySelectorAll(".sem-btn").forEach(btn => {
+      btn.addEventListener("pointerdown", e => {
+        e.preventDefault();
+        document.querySelectorAll(".sem-btn").forEach(b => b.classList.remove("sem-active"));
+        btn.classList.add("sem-active");
+        const fb = document.getElementById("semFeedback");
+        if (fb) fb.textContent = semMessages[btn.dataset.sem] || "";
+      });
+    });
+  </script>
+</body>
+</html>

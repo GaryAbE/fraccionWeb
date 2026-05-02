@@ -41,72 +41,97 @@
     .tp-mint  { background: var(--mint);  color: var(--mint-shadow);  }
     .tp-coral { background: var(--coral); color: var(--coral-shadow); }
     .tp-lav   { background: var(--lav);   color: var(--lav-shadow);   }
+    .tp-sky   { background: var(--sky);   color: var(--sky-shadow);   }
     .map-tagline {
       text-align: center;
       font-size: clamp(1rem, 2.8vw, 1.2rem);
       color: var(--text-mid);
       font-weight: 600;
     }
+    /* Nodo lavanda para Valoracion */
+    .mn-lav {
+      background: var(--lav-mid);
+      box-shadow: 0 9px 0 var(--lav-shadow);
+      color: #1c0840;
+    }
+    .mn-lav:active { box-shadow: 0 3px 0 var(--lav-shadow); }
+    .conn-lav { border-color: var(--lav-mid); }
+    /* Nodo sky para Rubrica */
+    .mn-sky2 {
+      background: var(--sky-mid);
+      box-shadow: 0 9px 0 var(--sky-shadow);
+      color: #040f1c;
+    }
+    .mn-sky2:active { box-shadow: 0 3px 0 var(--sky-shadow); }
   </style>
 </head>
 <body class="map-page page-index">
 
+  <!-- ══════ HERO ══════ -->
   <header class="map-hero">
     <div class="map-hero-icon" aria-hidden="true">
       <i data-lucide="graduation-cap"></i>
     </div>
     <h1 class="t-display anim-up">Matematicas<br /><span style="color:var(--mint-mid)">Aventura</span></h1>
-    <p class="t-body anim-up delay-1">Aprende Suma, Resta y Fracciones</p>
+    <p class="t-body anim-up delay-1">Fracciones — 3° de Primaria</p>
   </header>
 
-  <div style="padding: 0 20px; max-width:640px; margin: 0 auto 10px;">
+  <!-- ══════ TEMAS / MOMENTOS ══════ -->
+  <div style="padding: 0 20px; max-width:680px; margin: 0 auto 10px;">
     <div class="topics-strip anim-up delay-2">
       <div class="topic-pill tp-mint">
-        <i data-lucide="plus-circle"></i>Suma de Fracciones
+        <i data-lucide="sprout"></i>Practica
       </div>
-      <div class="topic-pill tp-coral">
-        <i data-lucide="minus-circle"></i>Resta de Fracciones
+      <div class="topic-pill tp-sky">
+        <i data-lucide="video"></i>Teoria
       </div>
       <div class="topic-pill tp-lav">
-        <i data-lucide="divide-circle"></i>Fracciones
+        <i data-lucide="heart-handshake"></i>Valoracion
+      </div>
+      <div class="topic-pill tp-coral">
+        <i data-lucide="pencil-line"></i>Produccion
       </div>
     </div>
   </div>
 
+  <!-- ══════ MAPA ZIGZAG ══════ -->
   <main class="map-container" role="main" aria-label="Camino de aprendizaje">
 
+    <!-- PARADA 1: PRACTICA (IZQUIERDA) -->
     <div class="map-row row-left anim-up delay-2">
-      <a href="videos.html" class="map-node mn-mint pulse-node" aria-label="Ir a Videos">
-        <div class="mn-icon" aria-hidden="true"><i data-lucide="video"></i></div>
-        <span class="mn-label">Videos</span>
+      <a href="practica.html" class="map-node mn-mint pulse-node" aria-label="Ir a Practica">
+        <div class="mn-icon" aria-hidden="true"><i data-lucide="sprout"></i></div>
+        <span class="mn-label">Practica</span>
         <div class="mn-badge" aria-hidden="true">1</div>
       </a>
       <div class="touch-hint" aria-hidden="true">
         <i data-lucide="hand"></i>
-        <span>Toca aqui</span>
+        <span>Empieza aqui</span>
       </div>
     </div>
 
     <div class="map-conn conn-rl conn-mint" aria-hidden="true"></div>
 
+    <!-- PARADA 2: VIDEOS (DERECHA) -->
     <div class="map-row row-right anim-up delay-3">
       <div class="touch-hint touch-hint-rev" aria-hidden="true">
         <i data-lucide="hand"></i>
         <span>Toca aqui</span>
       </div>
-      <a href="teoria.html" class="map-node mn-sky" aria-label="Ir a Teoria">
-        <div class="mn-icon" aria-hidden="true"><i data-lucide="book-open"></i></div>
-        <span class="mn-label">Teoria</span>
+      <a href="videos.html" class="map-node mn-sky" aria-label="Ir a Videos">
+        <div class="mn-icon" aria-hidden="true"><i data-lucide="video"></i></div>
+        <span class="mn-label">Videos</span>
         <div class="mn-badge" aria-hidden="true">2</div>
       </a>
     </div>
 
     <div class="map-conn conn-lr conn-sky" aria-hidden="true"></div>
 
+    <!-- PARADA 3: TEORIA (IZQUIERDA) -->
     <div class="map-row row-left anim-up delay-4">
-      <a href="juegos.html" class="map-node mn-cream" aria-label="Ir a Juegos">
-        <div class="mn-icon" aria-hidden="true"><i data-lucide="gamepad-2"></i></div>
-        <span class="mn-label">Juegos</span>
+      <a href="teoria.html" class="map-node mn-cream" aria-label="Ir a Teoria">
+        <div class="mn-icon" aria-hidden="true"><i data-lucide="book-open"></i></div>
+        <span class="mn-label">Teoria</span>
         <div class="mn-badge" aria-hidden="true">3</div>
       </a>
       <div class="touch-hint" aria-hidden="true">
@@ -117,20 +142,52 @@
 
     <div class="map-conn conn-rl conn-cream" aria-hidden="true"></div>
 
+    <!-- PARADA 4: JUEGOS (DERECHA) -->
     <div class="map-row row-right anim-up delay-5">
       <div class="touch-hint touch-hint-rev" aria-hidden="true">
         <i data-lucide="hand"></i>
         <span>Toca aqui</span>
       </div>
-      <a href="ejercicios.html" class="map-node mn-coral" aria-label="Ir a Ejercicios">
+      <a href="juegos.html" class="map-node mn-coral" aria-label="Ir a Juegos">
+        <div class="mn-icon" aria-hidden="true"><i data-lucide="gamepad-2"></i></div>
+        <span class="mn-label">Juegos</span>
+        <div class="mn-badge" aria-hidden="true">4</div>
+      </a>
+    </div>
+
+    <div class="map-conn conn-lr conn-lav" aria-hidden="true"></div>
+
+    <!-- PARADA 5: VALORACION (IZQUIERDA) -->
+    <div class="map-row row-left anim-up delay-5">
+      <a href="valoracion.html" class="map-node mn-lav" aria-label="Ir a Valoracion">
+        <div class="mn-icon" aria-hidden="true"><i data-lucide="heart-handshake"></i></div>
+        <span class="mn-label">Valoracion</span>
+        <div class="mn-badge" aria-hidden="true">5</div>
+      </a>
+      <div class="touch-hint" aria-hidden="true">
+        <i data-lucide="hand"></i>
+        <span>Toca aqui</span>
+      </div>
+    </div>
+
+    <div class="map-conn conn-rl conn-sky" aria-hidden="true"></div>
+
+    <!-- PARADA 6: EJERCICIOS Y RUBRICA (DERECHA) -->
+    <div class="map-row row-right anim-up delay-5">
+      <div class="touch-hint touch-hint-rev" aria-hidden="true">
+        <i data-lucide="hand"></i>
+        <span>Toca aqui</span>
+      </div>
+      <a href="ejercicios.html" class="map-node mn-sky2" aria-label="Ir a Ejercicios">
         <div class="mn-icon" aria-hidden="true"><i data-lucide="pencil-line"></i></div>
         <span class="mn-label">Ejercicios</span>
-        <div class="mn-badge" aria-hidden="true">4</div>
+        <div class="mn-badge" aria-hidden="true">6</div>
       </a>
     </div>
 
   </main>
 
+  <!-- ══════ PIE ══════ -->
   <footer class="map-footer" role="contentinfo">
     <p class="map-tagline">
       Sigue el camino y conviertete en un experto en fracciones

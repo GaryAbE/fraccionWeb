@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Practica - Matematicas Aventura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Tarjeta de experiencia previa ── */
+    .exp-card {
+      background: var(--white);
+      border-radius: var(--r-xl);
+      padding: 28px 22px;
+      box-shadow: 0 8px 0 var(--border);
+      margin-bottom: 22px;
+    }
+    .exp-card h3 {
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .exp-card p {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    /* ── Opciones de respuesta rápida ── */
+    .quick-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .qo-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      border-radius: var(--r-lg);
+      background: var(--card);
+      box-shadow: 0 5px 0 var(--border);
+      border: 3px solid transparent;
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: all .15s;
+      width: 100%;
+    }
+    .qo-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .qo-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--border); }
+    .qo-btn.selected {
+      border-color: var(--mint-mid);
+      background: var(--mint);
+      box-shadow: 0 5px 0 var(--mint-dark);
+    }
+
+    /* ── Pizza visual interactiva ── */
+    .pizza-wrap {
+      background: var(--white);
+      border-radius: var(--r-xl);
+      padding: 28px 22px;
+      box-shadow: 0 8px 0 var(--border);
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .pizza-title {
+      font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+      font-weight: 700;
+      color: var(--text);
+      text-align: center;
+    }
+    .pizza-svg-wrap {
+      width: clamp(180px, 50vw, 260px);
+      height: clamp(180px, 50vw, 260px);
+    }
+    .pizza-slices {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .ps-slice {
+      padding: 12px 18px;
+      border-radius: var(--r-full);
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(.95rem, 2.8vw, 1.2rem);
+      font-weight: 700;
+      border: 3px solid transparent;
+      cursor: pointer;
+      background: var(--lav);
+      color: var(--lav-shadow);
+      transition: all .15s;
+    }
+    .ps-slice.active {
+      border-color: var(--lav-shadow);
+      background: var(--lav-mid);
+      color: #fff;
+    }
+    .pizza-caption {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 700;
+      color: var(--text-mid);
+      text-align: center;
+    }
+
+    /* ── Sección sin conexión ── */
+    .offline-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--cream);
+      border-radius: var(--r-lg);
+      padding: 18px 20px;
+      box-shadow: 0 4px 0 var(--cream-dark);
+      margin-bottom: 22px;
+    }
+    .offline-banner svg { width: 28px; height: 28px; flex-shrink: 0; color: var(--cream-shadow); margin-top: 2px; }
+    .offline-banner p {
+      font-size: clamp(.95rem, 2.8vw, 1.15rem);
+      font-weight: 600;
+      color: var(--cream-shadow);
+      line-height: 1.5;
+    }
+    .offline-banner strong { color: var(--text); }
+  </style>
+</head>
+<body class="theory-page page-practica">
+
+  <!-- ══════ CABECERA ══════ -->
+  <header class="page-header">
+    <button class="back-btn" onclick="window.location.href='index.html'" aria-label="Volver al mapa">
+      <i data-lucide="arrow-left"></i>
+      <span>Mapa</span>
+    </button>
+    <div class="ph-badge phb-mint" aria-hidden="true">
+      <i data-lucide="sprout"></i>
+    </div>
+    <div class="ph-text">
+      <h1>Practica</h1>
+      <p>Momento 1 — Recuperamos lo que sabemos</p>
+    </div>
+  </header>
+
+  <!-- ══════ INSTRUCCIÓN ══════ -->
+  <div style="padding:16px 20px 0;max-width:880px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:12px;background:var(--mint);border-radius:999px;padding:14px 22px;box-shadow:0 4px 0 var(--mint-dark);">
+      <i data-lucide="hand" style="width:26px;height:26px;color:var(--mint-shadow);flex-shrink:0;"></i>
+      <span style="font-size:clamp(1rem,3vw,1.3rem);font-weight:700;color:var(--mint-shadow);">
+        Responde las preguntas antes de ver los videos
+      </span>
+    </div>
+  </div>
+
+  <!-- ══════ SECCIONES ══════ -->
+  <div class="theory-sections">
+
+    <!-- ─── ¿QUE SABES? ─── -->
+    <section class="theory-section ts-mint" aria-labelledby="pr-saberes">
+      <div class="theory-header">
+        <div class="theory-icon ti-mint" aria-hidden="true">
+          <i data-lucide="message-circle-question"></i>
+        </div>
+        <div class="theory-hd">
+          <h2 id="pr-saberes">¿Que sabes ya?</h2>
+          <p>Piensa en lo que conoces</p>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>¿Alguna vez partiste algo en partes iguales?</h3>
+        <p>
+          Piensa en tu vida diaria: una naranja, un pan, una hoja de papel...
+          Cuando divides algo en partes iguales, sin saberlo ya estas usando <strong>fracciones</strong>.
+        </p>
+      </div>
+
+      <!-- Pregunta 1 -->
+      <div class="exp-card">
+        <h3>¿Has partido una pizza o un pastel en casa?</h3>
+        <p>Toca la respuesta que mas se parece a tu experiencia:</p>
+        <div class="quick-options" role="group" aria-label="Opciones pregunta 1">
+          <button class="qo-btn" data-group="q1">
+            <i data-lucide="check-circle"></i>
+            Si, yo mismo lo he partido
+          </button>
+          <button class="qo-btn" data-group="q1">
+            <i data-lucide="eye"></i>
+            He visto a alguien hacerlo
+          </button>
+          <button class="qo-btn" data-group="q1">
+            <i data-lucide="help-circle"></i>
+            Nunca, pero me gustaria aprender
+          </button>
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="exp-card">
+        <h3>¿Sabes que significa "la mitad"?</h3>
+        <p>Por ejemplo: "come la mitad de tu manzana"</p>
+        <div class="quick-options" role="group" aria-label="Opciones pregunta 2">
+          <button class="qo-btn" data-group="q2">
+            <i data-lucide="check-circle"></i>
+            Si, es dividir algo en 2 partes iguales
+          </button>
+          <button class="qo-btn" data-group="q2">
+            <i data-lucide="minus-circle"></i>
+            Mas o menos, no estoy seguro
+          </button>
+          <button class="qo-btn" data-group="q2">
+            <i data-lucide="x-circle"></i>
+            No lo se todavia
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-top:8px;display:flex;align-items:center;gap:10px;">
+        <div class="touch-hint" aria-hidden="true">
+          <i data-lucide="hand"></i>
+          <span>Toca una respuesta para seleccionarla</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PIZZA INTERACTIVA ─── -->
+    <section class="theory-section ts-lav" aria-labelledby="pr-pizza">
+      <div class="theory-header">
+        <div class="theory-icon ti-lav" aria-hidden="true">
+          <i data-lucide="pie-chart"></i>
+        </div>
+        <div class="theory-hd">
+          <h2 id="pr-pizza">La Pizza de la Comunidad</h2>
+          <p>Aprende dividiendo algo que conoces</p>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>Imagina esto...</h3>
+        <p>
+          En tu comunidad hicieron una pizza grande para compartir.
+          ¿Como la repartirías en partes iguales para que todos coman lo mismo?
+          Toca los botones para ver como se ve cada division.
+        </p>
+      </div>
+
+      <!-- Pizza interactiva SVG -->
+      <div class="pizza-wrap" role="region" aria-label="Pizza interactiva">
+        <p class="pizza-title">Toca para dividir la pizza</p>
+        <div class="pizza-svg-wrap">
+          <svg id="pizzaSvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <!-- Se genera por JS -->
+          </svg>
+        </div>
+        <div class="pizza-slices">
+          <button class="ps-slice active" data-parts="2">En 2</button>
+          <button class="ps-slice" data-parts="3">En 3</button>
+          <button class="ps-slice" data-parts="4">En 4</button>
+          <button class="ps-slice" data-parts="6">En 6</button>
+          <button class="ps-slice" data-parts="8">En 8</button>
+        </div>
+        <p class="pizza-caption" id="pizzaCaption">Cada persona come 1/2 de la pizza</p>
+      </div>
+
+      <div class="concept-card">
+        <h3>¿Lo ves?</h3>
+        <p>
+          Cada trozo es una <strong>fraccion</strong> de la pizza completa.
+          Si la pizza se parte en 4 pedazos, cada pedazo es <strong>1/4</strong>.
+          El numero de abajo (denominador) dice cuantos pedazos hay en total.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── AVISO BAJA CONECTIVIDAD ─── -->
+    <section class="theory-section ts-coral" aria-labelledby="pr-offline">
+      <div class="theory-header">
+        <div class="theory-icon ti-coral" aria-hidden="true">
+          <i data-lucide="wifi-off"></i>
+        </div>
+        <div class="theory-hd">
+          <h2 id="pr-offline">Sin internet? No hay problema</h2>
+          <p>Esta actividad tambien funciona sin conexion</p>
+        </div>
+      </div>
+
+      <div class="offline-banner">
+        <i data-lucide="smartphone"></i>
+        <p>
+          Si no tienes internet en este momento, puedes hacer esta actividad
+          en tu <strong>cuaderno</strong>: dibuja una pizza y divídela en 4 partes iguales.
+          Luego toma una foto y enviala cuando tengas señal.
+        </p>
+      </div>
+
+      <div class="offline-banner">
+        <i data-lucide="phone-call"></i>
+        <p>
+          ¿Tu familia no tiene datos moviles? Puedes hacer las actividades
+          en <strong>papel</strong> y tu maestro revisara tu trabajo en clase.
+          Ninguna actividad te dejara atras por falta de conexion.
+        </p>
+      </div>
+
+      <div class="concept-card">
+        <h3>Actividad para llevar a casa</h3>
+        <p>
+          Pregunta a un familiar: <strong>"¿Algun dia partiste algo en partes iguales?"</strong>
+          Dibuja lo que te cuenten en tu cuaderno. Eso tambien es matematica comunitaria.
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════ NAVEGACION INFERIOR ══════ -->
+  <div style="padding:28px 20px 44px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;max-width:880px;margin:0 auto;">
+    <button class="btn btn-white btn-lg" onclick="window.location.href='index.html'">
+      <i data-lucide="map"></i>
+      <span>Mapa</span>
+    </button>
+    <button class="btn btn-sky btn-lg" onclick="window.location.href='videos.html'">
+      <span>Siguiente: Videos</span>
+      <i data-lucide="arrow-right"></i>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    /* ── Seleccion de opciones ── */
+    document.querySelectorAll(".qo-btn").forEach(btn => {
+      btn.addEventListener("pointerdown", e => {
+        e.preventDefault();
+        const group = btn.dataset.group;
+        document.querySelectorAll(`.qo-btn[data-group="${group}"]`)
+          .forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      });
+    });
+
+    /* ── Pizza SVG interactiva ── */
+    (function() {
+      const svg     = document.getElementById("pizzaSvg");
+      const caption = document.getElementById("pizzaCaption");
+      const btns    = document.querySelectorAll(".ps-slice");
+      const cx = 100, cy = 100, r = 90;
+
+      const COLORS = ["#ffd0ba","#b5ead7","#e8d5f8","#bde0f8","#fdf1c4",
+                      "#ffc8a0","#c8f0e0","#d8b8f8","#a0d8f8","#f8e8a0"];
+
+      function drawPizza(parts) {
+        svg.innerHTML = "";
+        // Circulo base (color pizza)
+        const base = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        base.setAttribute("cx", cx); base.setAttribute("cy", cy);
+        base.setAttribute("r", r); base.setAttribute("fill","#f5c842");
+        svg.appendChild(base);
+
+        // Cortes
+        const angleStep = (2 * Math.PI) / parts;
+        for (let i = 0; i < parts; i++) {
+          const startAngle = i * angleStep - Math.PI / 2;
+          const endAngle   = startAngle + angleStep;
+          const x1 = cx + r * Math.cos(startAngle);
+          const y1 = cy + r * Math.sin(startAngle);
+          const x2 = cx + r * Math.cos(endAngle);
+          const y2 = cy + r * Math.sin(endAngle);
+          const largeArc = parts === 1 ? 1 : 0;
+
+          const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+          path.setAttribute("d",
+            `M ${cx},${cy} L ${x1},${y1} A ${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`
+          );
+          path.setAttribute("fill", COLORS[i % COLORS.length]);
+          path.setAttribute("stroke","#fff");
+          path.setAttribute("stroke-width","3");
+          svg.appendChild(path);
+        }
+        // Borde exterior
+        const ring = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        ring.setAttribute("cx", cx); ring.setAttribute("cy", cy);
+        ring.setAttribute("r", r);
+        ring.setAttribute("fill","none");
+        ring.setAttribute("stroke","rgba(0,0,0,.15)");
+        ring.setAttribute("stroke-width","4");
+        svg.appendChild(ring);
+
+        caption.textContent = `Cada persona come 1/${parts} de la pizza`;
+      }
+
+      btns.forEach(btn => {
+        btn.addEventListener("pointerdown", e => {
+          e.preventDefault();
+          btns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          drawPizza(parseInt(btn.dataset.parts));
+        });
+      });
+
+      drawPizza(2); // Estado inicial
+    })();
+  </script>
+</body>
+</html>

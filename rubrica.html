@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Rubrica - Matematicas Aventura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Cabecera de rubrica ── */
+    .rubric-intro {
+      background: var(--white);
+      border-radius: var(--r-xl);
+      padding: 28px 22px;
+      box-shadow: 0 8px 0 var(--border);
+      margin-bottom: 26px;
+    }
+    .rubric-intro h3 { font-size: clamp(1.3rem,4vw,2rem); font-weight: 700; margin-bottom: 10px; }
+    .rubric-intro p  { font-size: clamp(1rem,3vw,1.3rem); color: var(--text-mid); line-height:1.5; }
+
+    /* ── Escala visual (3 niveles) ── */
+    .scale-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .scale-pill {
+      flex: 1;
+      min-width: 100px;
+      padding: 14px 12px;
+      border-radius: var(--r-lg);
+      text-align: center;
+      box-shadow: 0 4px 0 rgba(0,0,0,.1);
+    }
+    .scale-pill svg  { width: 28px; height: 28px; margin-bottom: 6px; }
+    .scale-pill h4   { font-size: clamp(.95rem,2.8vw,1.2rem); font-weight: 700; }
+    .sp-green  { background: var(--mint);  color: var(--mint-shadow);  }
+    .sp-yellow { background: var(--cream); color: var(--cream-shadow); }
+    .sp-coral  { background: var(--coral); color: var(--coral-shadow); }
+
+    /* ── Criterio de evaluacion ── */
+    .criterion {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      box-shadow: 0 6px 0 var(--border);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+    .crit-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      border-bottom: 2px dashed var(--border);
+    }
+    .crit-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .crit-icon svg { width: 24px; height: 24px; }
+    .ci-mint  { background: var(--mint);  }
+    .ci-lav   { background: var(--lav);   }
+    .ci-coral { background: var(--coral); }
+    .ci-sky   { background: var(--sky);   }
+    .crit-head h3 { font-size: clamp(1.1rem,3.2vw,1.5rem); font-weight: 700; }
+
+    /* Niveles del criterio */
+    .crit-levels { padding: 0; }
+    .crit-level {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .crit-level:last-child { border-bottom: none; }
+    .crit-level:active { background: var(--bg); }
+    .cl-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      flex-shrink: 0; margin-top: 4px;
+      transition: all .15s;
+    }
+    .crit-level.marked .cl-dot { border-color: var(--text); }
+    .cl-green  { background: var(--mint-mid);  }
+    .cl-yellow { background: var(--cream-mid); }
+    .cl-coral  { background: var(--coral-mid); }
+    .cl-text { flex: 1; }
+    .cl-text strong { font-size: clamp(.95rem,2.8vw,1.15rem); font-weight: 700; display: block; margin-bottom: 2px; }
+    .cl-text span   { font-size: clamp(.88rem,2.5vw,1.05rem); color: var(--text-mid); line-height: 1.4; }
+
+    /* ── Resumen de puntaje ── */
+    .score-summary {
+      background: var(--sky);
+      border-radius: var(--r-xl);
+      padding: 24px 22px;
+      box-shadow: 0 6px 0 var(--sky-dark);
+      margin-top: 24px;
+      text-align: center;
+    }
+    .score-summary h3 { font-size: clamp(1.2rem,3.5vw,1.8rem); font-weight: 700; color: var(--sky-shadow); margin-bottom: 8px; }
+    .score-value { font-size: clamp(3rem,10vw,6rem); font-weight: 700; color: var(--sky-shadow); line-height: 1; }
+    .score-label { font-size: clamp(1rem,3vw,1.3rem); color: var(--sky-shadow); font-weight: 600; margin-top: 6px; }
+    .score-msg   { font-size: clamp(1rem,3vw,1.3rem); color: var(--sky-shadow); font-weight: 700; margin-top: 12px; }
+
+    /* ── Banner docente ── */
+    .docente-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--lav);
+      border-radius: var(--r-lg);
+      padding: 18px 20px;
+      box-shadow: 0 4px 0 var(--lav-shadow);
+      margin-bottom: 18px;
+    }
+    .docente-banner svg { width: 26px; height: 26px; flex-shrink: 0; color: var(--lav-shadow); margin-top: 2px; }
+    .docente-banner p { font-size: clamp(.95rem,2.8vw,1.15rem); font-weight: 600; color: var(--lav-shadow); line-height: 1.5; }
+  </style>
+</head>
+<body class="theory-page page-rubrica">
+
+  <!-- ══════ CABECERA ══════ -->
+  <header class="page-header">
+    <button class="back-btn" onclick="window.location.href='index.html'" aria-label="Volver al mapa">
+      <i data-lucide="arrow-left"></i>
+      <span>Mapa</span>
+    </button>
+    <div class="ph-badge phb-sky" aria-hidden="true">
+      <i data-lucide="clipboard-list"></i>
+    </div>
+    <div class="ph-text">
+      <h1>Rubrica</h1>
+      <p>Instrumento de evaluacion</p>
+    </div>
+  </header>
+
+  <!-- ══════ INSTRUCCIÓN ══════ -->
+  <div style="padding:16px 20px 0;max-width:880px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:12px;background:var(--sky);border-radius:999px;padding:14px 22px;box-shadow:0 4px 0 var(--sky-dark);">
+      <i data-lucide="info" style="width:26px;height:26px;color:var(--sky-shadow);flex-shrink:0;"></i>
+      <span style="font-size:clamp(1rem,3vw,1.3rem);font-weight:700;color:var(--sky-shadow);">
+        Toca un nivel en cada criterio para marcar tu evaluacion
+      </span>
+    </div>
+  </div>
+
+  <div class="theory-sections">
+
+    <!-- ─── RUBRICA PRINCIPAL ─── -->
+    <section class="theory-section ts-mint" aria-labelledby="rub-main">
+      <div class="theory-header">
+        <div class="theory-icon ti-mint" aria-hidden="true">
+          <i data-lucide="clipboard-check"></i>
+        </div>
+        <div class="theory-hd">
+          <h2 id="rub-main">Rubrica de Evaluacion</h2>
+          <p>Fracciones — 3° de Primaria</p>
+        </div>
+      </div>
+
+      <div class="rubric-intro">
+        <h3>¿Como funciona esta rubrica?</h3>
+        <p>
+          Cada criterio tiene <strong>3 niveles</strong>. Toca el nivel que
+          corresponde al trabajo del estudiante. Al final veras el puntaje total
+          y un mensaje de retroalimentacion.
+        </p>
+      </div>
+
+      <!-- Escala de colores -->
+      <div class="scale-row">
+        <div class="scale-pill sp-green">
+          <i data-lucide="smile"></i>
+          <h4>Lo logre</h4>
+        </div>
+        <div class="scale-pill sp-yellow">
+          <i data-lucide="meh"></i>
+          <h4>Estoy en camino</h4>
+        </div>
+        <div class="scale-pill sp-coral">
+          <i data-lucide="frown"></i>
+          <h4>Necesito ayuda</h4>
+        </div>
+      </div>
+
+      <!-- Nota docente -->
+      <div class="docente-banner">
+        <i data-lucide="book-open"></i>
+        <p>
+          <strong>Nota para el docente:</strong> Esta rubrica aplica los criterios del
+          Modelo Sociocomunitario Productivo. Los criterios evaluan competencias,
+          no solo conocimiento tecnico. La evaluacion debe ser <strong>continua, participativa y cualitativa</strong>.
+        </p>
+      </div>
+
+      <!-- ── Criterio 1: Comprension conceptual ── -->
+      <div class="criterion" data-criterion="c1">
+        <div class="crit-head">
+          <div class="crit-icon ci-lav"><i data-lucide="brain"></i></div>
+          <h3>1. Comprension de Fracciones</h3>
+        </div>
+        <div class="crit-levels">
+          <div class="crit-level" data-crit="c1" data-val="3">
+            <div class="cl-dot cl-green"></div>
+            <div class="cl-text">
+              <strong>Lo logre (3 pts)</strong>
+              <span>Explica con sus propias palabras que es una fraccion, identifica numerador y denominador, y da ejemplos de su vida cotidiana.</span>
+            </div>
+          </div>
+          <div class="crit-level" data-crit="c1" data-val="2">
+            <div class="cl-dot cl-yellow"></div>
+            <div class="cl-text">
+              <strong>Estoy en camino (2 pts)</strong>
+              <span>Identifica fracciones basicas como 1/2 y 1/4, pero necesita apoyo para explicar el concepto con sus palabras.</span>
+            </div>
+          </div>
+          <div class="crit-level" data-crit="c1" data-val="1">
+            <div class="cl-dot cl-coral"></div>
+            <div class="cl-text">
+              <strong>Necesito ayuda (1 pt)</strong>
+              <span>Confunde numerador y denominador, o no puede relacionar la fraccion con un objeto real.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Criterio 2: Suma y Resta ── -->
+      <div class="criterion" data-criterion="c2">
+        <div class="crit-head">
+          <div class="crit-icon ci-mint"><i data-lucide="calculator"></i></div>
+          <h3>2. Suma y Resta de Fracciones</h3>
+        </div>
+        <div class="crit-levels">
+          <div class="crit-level" data-crit="c2" data-val="3">
+            <div class="cl-dot cl-green"></div>
+            <div class="cl-text">
+              <strong>Lo logre (3 pts)</strong>
+              <span>Resuelve sumas y restas de fracciones con igual denominador sin errores y explica el procedimiento paso a paso.</span>
+            </div>
+          </div>
+          <div class="crit-level" data-crit="c2" data-val="2">
+            <div class="cl-dot cl-yellow"></div>
+            <div class="cl-text">
+              <strong>Estoy en camino (2 pts)</strong>
+              <span>Resuelve la mayoria de operaciones correctamente, pero comete errores ocasionales al escribir el resultado.</span>
+            </div>
+          </div>
+          <div class="crit-level" data-crit="c2" data-val="1">
+            <div class="cl-dot cl-coral"></div>
+            <div class="cl-text">
+              <strong>Necesito ayuda (1 pt)</strong>
+              <span>Suma o resta los denominadores tambien, o no puede seguir el procedimiento sin guia constante.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Criterio 3: Produccion comunitaria ── -->
+      <div class="criterion" data-criterion="c3">
+        <div class="crit-head">
+          <div class="crit-icon ci-coral"><i data-lucide="sprout"></i></div>
+          <h3>3. Vinculo con la Comunidad</h3>
+        </div>
+        <div class="crit-levels">
+          <div class="crit-level" data-crit="c3" data-val="3">
+            <div class="cl-dot cl-green"></div>
+            <div class="cl-text">
+              <strong>Lo logre (3 pts)</strong>
+              <span>Menciona y explica al menos un ejemplo real de su familia o comunidad donde se usan fracciones.</span>
+            </div>
+          </div>
+          <div class="crit-level" data-crit="c3" data-val="2">
+            <div class="cl-dot cl-yellow"></div>
+            <div class="cl-text">
+              <strong>Estoy en camino (2 pts)</strong>
+              <span>Menciona un ejemplo de su vida cotidiana pero no logra explicar como se relaciona con las fracciones.</span>
+            </div>
+          </div>
+          <div class="crit-level" data-crit="c3" data-val="1">
+            <div class="cl-dot cl-coral"></div>
+            <div class="cl-text">
+              <strong>Necesito ayuda (1 pt)</strong>
+              <span>No logra conectar las fracciones con situaciones reales de su entorno.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Criterio 4: Participacion y reflexion ── -->
+      <div class="criterion" data-criterion="c4">
+        <div class="crit-head">
+          <div class="crit-icon ci-sky"><i data-lucide="message-circle"></i></div>
+          <h3>4. Participacion y Reflexion</h3>
+        </div>
+        <div class="crit-levels">
+          <div class="crit-level" data-crit="c4" data-val="3">
+            <div class="cl-dot cl-green"></div>
+            <div class="cl-text">
+              <strong>Lo logre (3 pts)</strong>
+              <span>Participa activamente, respeta las ideas de sus companeros y reflexiona sobre lo que aprendio con argumentos propios.</span>
+            </div>
+          </div>
+          <div class="crit-level" data-crit="c4" data-val="2">
+            <div class="cl-dot cl-yellow"></div>
+            <div class="cl-text">
+              <strong>Estoy en camino (2 pts)</strong>
+              <span>Participa cuando se le solicita y da respuestas breves pero muestra interes en el tema.</span>
+            </div>
+          </div>
+          <div class="crit-level" data-crit="c4" data-val="1">
+            <div class="cl-dot cl-coral"></div>
+            <div class="cl-text">
+              <strong>Necesito ayuda (1 pt)</strong>
+              <span>Participa muy poco o necesita motivacion constante para involucrarse en las actividades.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Resumen de puntaje ── -->
+      <div class="score-summary" id="scoreSummary" aria-live="polite">
+        <h3>Puntaje total</h3>
+        <div class="score-value" id="scoreValue">0 / 12</div>
+        <p class="score-label">Toca los criterios de arriba para calcular</p>
+        <p class="score-msg" id="scoreMsg"></p>
+      </div>
+
+    </section>
+
+    <!-- ─── ESTRATEGIA OFFLINE ─── -->
+    <section class="theory-section ts-coral" aria-labelledby="rub-offline">
+      <div class="theory-header">
+        <div class="theory-icon ti-coral" aria-hidden="true">
+          <i data-lucide="wifi-off"></i>
+        </div>
+        <div class="theory-hd">
+          <h2 id="rub-offline">Estrategia para Baja Conectividad</h2>
+          <p>Ningún estudiante se queda atras</p>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>Si un estudiante no tiene internet</h3>
+        <p>
+          El maestro puede imprimir esta rubrica o dibujarla en la pizarra.
+          El estudiante completa las actividades en su cuaderno y las entrega
+          fisicamente o las envia por WhatsApp cuando tenga acceso.
+        </p>
+      </div>
+
+      <div class="concept-card">
+        <h3>Plazos flexibles</h3>
+        <p>
+          Los estudiantes de zonas rurales o con conectividad limitada tienen
+          <strong>plazo extendido</strong> para entregar actividades.
+          La evaluacion nunca penaliza la falta de tecnologia, solo el aprendizaje.
+        </p>
+      </div>
+
+      <div class="concept-card">
+        <h3>Evaluacion por llamada</h3>
+        <p>
+          Si el estudiante no puede enviar fotos ni acceder al entorno,
+          el maestro puede realizar una <strong>breve llamada de 5 minutos</strong>
+          para evaluar oralmente el proceso de aprendizaje.
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════ NAVEGACION INFERIOR ══════ -->
+  <div style="padding:28px 20px 44px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;max-width:880px;margin:0 auto;">
+    <button class="btn btn-white btn-lg" onclick="window.location.href='ejercicios.html'">
+      <i data-lucide="arrow-left"></i>
+      <span>Ejercicios</span>
+    </button>
+    <button class="btn btn-mint btn-lg" onclick="window.location.href='index.html'">
+      <i data-lucide="map"></i>
+      <span>Volver al Mapa</span>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    /* ── Rubrica interactiva ── */
+    (function() {
+      const scores = { c1: 0, c2: 0, c3: 0, c4: 0 };
+
+      function updateScore() {
+        const total = Object.values(scores).reduce((a, b) => a + b, 0);
+        const max   = 12;
+        document.getElementById("scoreValue").textContent = `${total} / ${max}`;
+        const pct = total / max;
+        const msg =
+          pct >= 0.8 ? "Muy bien logrado. Sigue asi." :
+          pct >= 0.5 ? "Buen avance. Sigue practicando." :
+          total > 0  ? "Necesita refuerzo. El docente puede apoyar." : "";
+        document.getElementById("scoreMsg").textContent = msg;
+      }
+
+      document.querySelectorAll(".crit-level").forEach(level => {
+        level.addEventListener("pointerdown", e => {
+          e.preventDefault();
+          const crit = level.dataset.crit;
+          const val  = parseInt(level.dataset.val);
+          // Desmarcar todos del mismo criterio
+          document.querySelectorAll(`.crit-level[data-crit="${crit}"]`)
+            .forEach(l => l.classList.remove("marked"));
+          level.classList.add("marked");
+          scores[crit] = val;
+          updateScore();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
